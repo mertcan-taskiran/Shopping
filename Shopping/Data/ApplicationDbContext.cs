@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using OrnekSite.Models;
 using Shopping.Models;
 
 namespace Shopping.Data
@@ -12,5 +13,6 @@ namespace Shopping.Data
         }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }
