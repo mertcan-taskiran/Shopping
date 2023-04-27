@@ -1,72 +1,114 @@
-﻿@model IEnumerable<OrnekSite.Models.Product>
+﻿@model IEnumerable<Shopping.Models.Product>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="container">
+    <div class="row">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsHome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsStock)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Image)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsHome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsStock)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mt-3">
+                <li class="breadcrumb-item"><a class="link-dark" href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Admin Products</li>
+            </ol>
+        </nav>
+
+        <div class="d-flex justify-content-between align-items-center">
+            <h3>Admin Products</h3>
+            <a asp-action="Create" class="btn btn-dark btn-sm"><i class="fa-solid fa-plus"></i> Create Product</a>
+        </div>
+
+        <hr />
+
+        <table class="table table-hover table-bordered table-striped table-sm" id="myTable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Image)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Category)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>         
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.IsHome)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.IsStock)
+                    </th>           
+                    <th class="text-center" style="width:130px"><i class="fa-solid fa-gear"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model) {
+                    <tr class="align-middle">
+                        <td class="text-center" style="width:130px">
+                            @if (item.Image == null)
+                            {
+                                <img src="~/images/no-image.jpg" width="150" height="150" />
+                            }
+                            else
+                            {
+                                <img src="@item.Image" width="150" height="150" />
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Category.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price) ₺
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>                     
+                        <td class="text-center">
+                            @if (item.IsHome)
+                            {
+                                <i class="fa-solid fa-circle-check text-success"></i>
+                            }
+                            else
+                            {
+                                <i class="fa-solid fa-circle-xmark text-danger"></i>
+                            }
+                        </td>
+                        <td class="text-center">
+                            @if (item.IsStock)
+                            {
+                                <i class="fa-solid fa-circle-check text-success"></i>
+                            }
+                            else
+                            {
+                                <i class="fa-solid fa-circle-xmark text-danger"></i>
+                            }
+                        </td>
+                        <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i> Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>
 }
-    </tbody>
-</table>

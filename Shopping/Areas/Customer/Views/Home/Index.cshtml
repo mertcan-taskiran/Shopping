@@ -1,7 +1,30 @@
-﻿@{
+﻿<style>
+    .img-thumbnail
+    {
+        border: none;
+    }
+</style>
+
+@model IEnumerable<Shopping.Models.Product>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <ul class="list-group">
+                    <li class="list-group-item active" aria-current="true">All Products</li>
+                    <li class="list-group-item">A second item</li>
+                    <li class="list-group-item">A third item</li>
+                    <li class="list-group-item">A fourth item</li>
+                    <li class="list-group-item">And a fifth one</li>
+                </ul>
+            </div>
+        </div>
+
+        <partial name="_Cards" />
+        
+    </div>
 </div>

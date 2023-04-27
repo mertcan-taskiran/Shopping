@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OrnekSite.Models
+namespace Shopping.Models
 {
     public class Product
     {

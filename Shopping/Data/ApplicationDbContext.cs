@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using OrnekSite.Models;
 using Shopping.Models;
 
 namespace Shopping.Data
