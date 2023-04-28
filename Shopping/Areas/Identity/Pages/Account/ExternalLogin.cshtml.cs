@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Shopping.Models;
 
 namespace Shopping.Areas.Identity.Pages.Account
 {
@@ -84,6 +85,15 @@ namespace Shopping.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+            [Required]
+            public string Name { get; set; }
+            [Required]
+            public string Surname { get; set; }
+            public string Adres { get; set; }
+            public string Sehir { get; set; }
+            public string Semt { get; set; }
+            public string PostaKodu { get; set; }
+            public string TelefonNo { get; set; }
         }
         
         public IActionResult OnGet() => RedirectToPage("./Login");
@@ -151,7 +161,18 @@ namespace Shopping.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+                var user = new ApplicationUser
+                {
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    Adres = Input.Adres,
+                    Sehir = Input.Sehir,
+                    Semt = Input.Semt,
+                    Name = Input.Name,
+                    Surname = Input.Surname,
+                    PhoneNumber = Input.TelefonNo,
+                    PostaKodu = Input.PostaKodu,
+                };
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -162,6 +183,7 @@ namespace Shopping.Areas.Identity.Pages.Account
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
+                        await _userManager.AddToRoleAsync(user, Diger.Role_Member);
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
 
                         var userId = await _userManager.GetUserIdAsync(user);

@@ -22,6 +22,7 @@ namespace Shopping
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
             builder.Services.AddSingleton<IEmailSender, EmailSender>();
+            builder.Services.Configure<EmailOptions>(builder.Configuration);
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
 
@@ -30,6 +31,12 @@ namespace Shopping
                 option.LoginPath = $"/Identity/Account/Login";
                 option.LogoutPath = $"/Identity/Account/Logout";
                 option.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
+
+            builder.Services.AddAuthentication().AddGoogle(options =>
+            {
+                options.ClientId = "439512783165-2sfhgp9rakcrr5g3pijs9igtsj5cogmk.apps.googleusercontent.com";
+                options.ClientSecret = "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";
             });
 
             var app = builder.Build();
