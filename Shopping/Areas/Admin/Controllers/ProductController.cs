@@ -8,10 +8,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Shopping.Models;
 using Shopping.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Shopping.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = Diger.Role_Admin)]
     public class ProductController : Controller
     {
         private readonly ApplicationDbContext _context;
