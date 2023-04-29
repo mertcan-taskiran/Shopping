@@ -118,7 +118,7 @@ namespace Shopping.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    var user = _db.ApplicationUsers.FirstOrDefault(x => x.Email == Input.Email);
+                    var user = _db.ApplicationUsers.FirstOrDefault(i => i.Email == Input.Email);
                     int count = _db.ShoppingCarts.Where(i => i.ApplicationUserId == user.Id).Count();
                     HttpContext.Session.SetInt32(Diger.ssShoppingCart, count);
                     _logger.LogInformation("User logged in.");

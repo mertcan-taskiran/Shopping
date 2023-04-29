@@ -56,15 +56,13 @@ namespace Shopping.Areas.Customer.Controllers
         public IActionResult Details(ShoppingCart Scart)
         {
             Scart.Id = 0;
-
             if (ModelState.IsValid)
             {
                 var claimsIdentity = (ClaimsIdentity)User.Identity;
                 var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
                 Scart.ApplicationUserId = claim.Value;
-
-                ShoppingCart cart = _db.ShoppingCarts.FirstOrDefault(u => u.ApplicationUserId == Scart.ApplicationUserId && u.ProductId == Scart.ProductId);
-
+                ShoppingCart cart = _db.ShoppingCarts.FirstOrDefault(
+                    u => u.ApplicationUserId == Scart.ApplicationUserId && u.ProductId == Scart.ProductId);
                 if (cart == null)
                 {
                     _db.ShoppingCarts.Add(Scart);
@@ -73,7 +71,6 @@ namespace Shopping.Areas.Customer.Controllers
                 {
                     cart.Count += Scart.Count;
                 }
-
                 _db.SaveChanges();
                 var count = _db.ShoppingCarts.Where(i => i.ApplicationUserId == Scart.ApplicationUserId).ToList().Count();
                 HttpContext.Session.SetInt32(Diger.ssShoppingCart, count);
@@ -82,11 +79,10 @@ namespace Shopping.Areas.Customer.Controllers
             else
             {
                 var product = _db.Products.FirstOrDefault(i => i.Id == Scart.Id);
-
                 ShoppingCart cart = new ShoppingCart()
                 {
                     Product = product,
-                    ProductId = product.Id,
+                    ProductId = product.Id
                 };
             }
 
