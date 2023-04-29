@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Shopping.Data;
 using Shopping.Models;
 using System.Security.Claims;
+using System.Text.Encodings.Web;
+using System.Text;
 
 namespace Shopping.Areas.Customer.Controllers
 {
@@ -44,5 +47,79 @@ namespace Shopping.Areas.Customer.Controllers
 
             return View(ShoppingCartVM);
         }
+
+        [HttpPost]
+        [ActionName("Index")]
+        public async Task<IActionResult> IndexPOST()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var user = _db.ApplicationUsers.FirstOrDefault(i => i.Id == claim.Value);
+
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "verification email is empty");
+            }
+
+            var userId = await _userManager.GetUserIdAsync(user);
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            var callbackUrl = Url.Page(
+                "/Account/ConfirmEmail",
+                pageHandler: null,
+                values: new { area = "Identity", userId = userId, code = code },
+                protocol: Request.Scheme);
+
+            await _emailSender.SendEmailAsync(user.Email, "Confirm your email",
+                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+            ModelState.AddModelError(string.Empty, "Send Email Verification Code");
+            return RedirectToAction("Success");
+        }
+
+        public IActionResult Success()
+        {
+            return View();
+        }
+
+        public IActionResult Add(int cartId)
+        {
+            var cart = _db.ShoppingCarts.FirstOrDefault(i => i.Id == cartId);
+            cart.Count += 1;
+            _db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Decrease(int cartId)
+        {
+            var cart = _db.ShoppingCarts.FirstOrDefault(i => i.Id == cartId);
+            if (cart.Count == 1)
+            {
+                var count = _db.ShoppingCarts.Where(u => u.ApplicationUserId == cart.ApplicationUserId).ToList().Count();
+                _db.ShoppingCarts.Remove(cart);
+                _db.SaveChanges();
+                HttpContext.Session.SetInt32(Diger.ssShoppingCart, count - 1);
+            }
+            else
+            {
+                cart.Count -= 1;
+                _db.SaveChanges();
+            }
+           
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Remove(int cartId)
+        {
+            var cart = _db.ShoppingCarts.FirstOrDefault(i => i.Id == cartId);
+            
+            var count = _db.ShoppingCarts.Where(u => u.ApplicationUserId == cart.ApplicationUserId).ToList().Count();
+            _db.ShoppingCarts.Remove(cart);
+            _db.SaveChanges();
+            HttpContext.Session.SetInt32(Diger.ssShoppingCart, count - 1);
+            
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }
