@@ -39,6 +39,13 @@ namespace Shopping
                 options.ClientSecret = "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";
             });
 
+            builder.Services.AddSession(options =>
+            {
+                options.Cookie.Name = ".AdventureWorks.Session";
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.IsEssential = true;
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -57,6 +64,7 @@ namespace Shopping
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
 
             app.UseAuthentication();
             app.UseAuthorization();

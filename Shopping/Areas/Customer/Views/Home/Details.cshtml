@@ -1,0 +1,83 @@
+﻿@model Shopping.Models.ShoppingCart
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mt-3">
+                <li class="breadcrumb-item"><a class="link-dark" href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@Model.Product.Name</li>
+            </ol>
+        </nav>
+
+        <form method="post">
+            <input hidden asp-for="ProductId" />
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4 img-thumbnail text-center">
+                        <img src="@Model.Product.Image" class="img-fluid rounded-start" alt="image" style="height:300px">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+              
+                            <dl class="row">                               
+                                <dt class="col-sm-3">
+                                    Name
+                                </dt>
+                                <dd class="col-sm-9">
+                                    @Model.Product.Name
+                                </dd>
+                                <dt class="col-sm-3">
+                                    Price
+                                </dt>
+                                <dd class="col-sm-9">
+                                    @Model.Product.Price.ToString("0.00") ₺
+                                </dd>
+                                <dt class="col-sm-3">
+                                    Stock
+                                </dt>
+                                <dd class="col-sm-9">
+                                    @if (Model.Product.IsStock)
+                                    {
+                                        <i class="fa-solid fa-circle-check text-success"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa-solid fa-circle-xmark text-danger"></i>
+                                    }
+                                </dd>
+                                <dt class="col-sm-3">
+                                    Quantity
+                                </dt>
+                                <dd class="col-sm-9 d-flex">
+                                    <input asp-for="Count" class="col-1 mr-2" />
+                                    @if (Model.Product.IsStock)
+                                    {
+                                        <button type="submit" class="btn btn-warning btn-sm align-self-center"><i class="fa-solid fa-cart-shopping"></i></button>
+                                    }
+                                    else
+                                    {
+                                        <button type="submit" class="btn btn-danger btn-sm disabled align-self-center"><i class="fa-solid fa-cart-shopping"></i></button>
+                                    }
+                                </dd>
+                            </dl>
+
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+                
+                <div class="row p-3">
+                    <h3 class="text-center">@Model.Product.Name Features</h3>
+                    <hr class="w-25 mx-auto" />
+                    <p>@Model.Product.Description</p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
