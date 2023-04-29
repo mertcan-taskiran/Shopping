@@ -1,8 +1,107 @@
-﻿
+﻿@model Shopping.Models.ShoppingCartVM
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+
+
+<form method="post">
+    <div class="container">
+        <div class="row">
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mt-3">
+                    <li class="breadcrumb-item"><a class="link-dark" href="/">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+                </ol>
+            </nav>
+
+            <h3>Shopping Cart</h3>
+            <hr />
+
+            @if (Model.ListCart.Count() > 0)
+            {
+                <div class="col-md-12">
+                    <table id="myTable" class="table table-hover table-bordered table-striped table-sm text-center">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Image
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Quantity
+                                </th>
+                                <th>
+                                    Price
+                                </th>
+                                <th>
+                                    Total
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ListCart)
+                            {
+                                <tr>
+                                    <td>
+                                        <img src="@item.Product.Image" width="60" />
+                                    </td>
+                                    <td>
+                                        @item.Product.Name
+                                    </td>
+                                    <td>
+                                        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                            <div class="btn-group me-2" role="group" aria-label="First group">
+                                                <input value="@item.Count" type="text" style="max-width: 45px;" class="form-control" />
+                                                <button asp-action="Add" asp-route-cartId="@item.Id" class="btn btn-primary btn-sm"><i class="fa-solid fa-caret-up"></i></button>
+                                                <button asp-action="Decrease" asp-route-cartId="@item.Id" class="btn btn-warning btn-sm"><i class="fa-solid fa-caret-up fa-rotate-180"></i></button>
+                                                <button asp-action="Remove" asp-route-cartId="@item.Id" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @item.Product.Price.ToString("0.00") ₺
+                                    </td>
+                                    <td>
+                                        @((item.Count * item.Product.Price).ToString("0.00")) ₺
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td colspan="4" style="text-align:right">
+                                    <strong>TOTAL AMOUNT</strong>
+                                </td>
+                                <td class="bg-primary">
+                                    <span style="font-size: large; color: white;">@Model.OrderHeader.OrderTotal.ToString("0.00") ₺</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-warning form-control"><i class="fa-solid fa-arrow-rotate-left"></i> Keep Shopping</a>
+                        </div>
+                        <div class="col-md-8">
+                        </div>
+                        <div class="col-md-2">
+                            <a asp-area="Customer" asp-controller="Cart" asp-action="Summary" class="btn btn-primary form-control"><i class="fa-solid fa-arrow-right-from-arc"></i> Keep Shopping</a>
+                        </div>
+                    </div>
+
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-danger">No Product</div>
+            }
+
+            
+        </div>
+    </div>
+</form>
 
