@@ -24,7 +24,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <div asp-validation-summary="All" class="text-danger"></div>
+                       
                         <div class="mb-3 row">
                             <label for="Name" class="col-sm-3 col-form-label">Name</label>
                             <div class="col-sm-9">
@@ -107,6 +107,38 @@
                                 
                             </ul>
                         </div>
+
+                        <div class="mb-3 row">
+                            <label for="CartName" class="col-sm-4 col-form-label">Cart Name</label>
+                            <div class="col-sm-8">
+                                <input type="text" asp-for="OrderHeader.CartName" class="form-control">
+                                <span asp-validation-for="OrderHeader.CartName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label for="CartNumber" class="col-sm-4 col-form-label">Cart Number</label>
+                            <div class="col-sm-8">
+                                <input type="text" asp-for="OrderHeader.CartNumber" class="form-control">
+                                <span asp-validation-for="OrderHeader.CartNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <div class="col-sm-4">
+                                <input type="text" asp-for="OrderHeader.ExpirationMonth" class="form-control" placeholder="Month">
+                                <span asp-validation-for="OrderHeader.ExpirationMonth" class="text-danger"></span>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" asp-for="OrderHeader.ExpirationYear" class="form-control" placeholder="Year">
+                                <span asp-validation-for="OrderHeader.ExpirationYear" class="text-danger"></span>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" asp-for="OrderHeader.Cvc" class="form-control" placeholder="CVC">
+                                <span asp-validation-for="OrderHeader.Cvc" class="text-danger"></span>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
