@@ -91,6 +91,23 @@
                         </li>
 
                     </ul>
+
+                    @if (User.IsInRole(Diger.Role_Admin))
+                    {
+                        @if (Model.OrderHeader.OrderStatus == Diger.Durum_Onaylandi)
+                        {
+                            <input type="submit" value="Ship It" class="btn btn-primary form-control" formaction="/Admin/Order/KargoyaVer" formmethod="post" />
+                        }
+                        @if (Model.OrderHeader.OrderStatus == Diger.Durum_Beklemede)
+                        {
+                            <input type="submit" value="Approve" class="btn btn-primary form-control" formaction="/Admin/Order/Onaylandi" formmethod="post" />
+                        }
+                    }
+                    else
+                    {
+                        <label class="alert alert-warning">@Model.OrderHeader.OrderStatus</label>
+                    }
+
                 </div>
             </div>
         </div>

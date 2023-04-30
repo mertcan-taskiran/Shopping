@@ -20,6 +20,26 @@ namespace Shopping.Areas.Admin.Controllers
             _db = db;
         }
 
+        [HttpPost]
+        [Authorize(Roles = Diger.Role_Admin)]
+        public IActionResult Onaylandi()
+        {
+            OrderHeader orderHeader = _db.OrderHeaders.FirstOrDefault(i => i.Id == OrderVM.OrderHeader.Id);
+            orderHeader.OrderStatus = Diger.Durum_Onaylandi;
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Diger.Role_Admin)]
+        public IActionResult KargoyaVer()
+        {
+            OrderHeader orderHeader = _db.OrderHeaders.FirstOrDefault(i => i.Id == OrderVM.OrderHeader.Id);
+            orderHeader.OrderStatus = Diger.Durum_Kargoda;
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
         public IActionResult Details(int id)
         {
             OrderVM = new OrderDetailsMV()
