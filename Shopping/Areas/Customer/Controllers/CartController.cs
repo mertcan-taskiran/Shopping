@@ -45,6 +45,45 @@ namespace Shopping.Areas.Customer.Controllers
             return View(ShoppingCartVM);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Summary(ShoppingCartVM model)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            ShoppingCartVM.ListCart = _db.ShoppingCarts.Where(i => i.ApplicationUserId == claim.Value).Include(i => i.Product);
+            ShoppingCartVM.OrderHeader.OrderStatus = Diger.Durum_Beklemede;
+            ShoppingCartVM.OrderHeader.ApplicationUserId = claim.Value;
+            ShoppingCartVM.OrderHeader.OrderDate = DateTime.Now;
+            _db.OrderHeaders.Add(ShoppingCartVM.OrderHeader);
+            _db.SaveChanges();
+
+            foreach (var item in ShoppingCartVM.ListCart)
+            {
+                item.Price = item.Product.Price;
+                OrderDetails orderDetails = new OrderDetails()
+                {
+                    ProductId = item.ProductId,
+                    OrderId = ShoppingCartVM.OrderHeader.Id,
+                    Price = item.Price,
+                    Count = item.Count
+                };
+
+                ShoppingCartVM.OrderHeader.OrderTotal += item.Count * item.Product.Price;
+                model.OrderHeader.OrderTotal += item.Count * item.Product.Price;
+                _db.OrderDetails.Add(orderDetails);
+            }
+            _db.ShoppingCarts.RemoveRange(ShoppingCartVM.ListCart);
+            _db.SaveChanges();
+            HttpContext.Session.SetInt32(Diger.ssShoppingCart, 0);
+            return RedirectToAction("SiparisTamam");
+        }
+
+        public IActionResult SiparisTamam()
+        {
+            return View();
+        }
+
         public IActionResult Index()
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;

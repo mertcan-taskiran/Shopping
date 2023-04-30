@@ -14,7 +14,7 @@ namespace Shopping.Models
         public string? ApplicationUserId { get; set; }
         [ForeignKey("ApplicationUserId")]
         public ApplicationUser? ApplicationUser { get; set; }
-        public int? ProductId { get; set; }
+        public int ProductId { get; set; }
         [ForeignKey("ProductId")]
         public Product? Product { get; set; }
         public int Count { get; set; }
