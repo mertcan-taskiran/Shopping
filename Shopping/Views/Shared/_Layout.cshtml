@@ -37,9 +37,17 @@
                                 <li><a class="dropdown-item" asp-area="Admin" asp-controller="Product" asp-action="Index">Products</a></li>
                                 <li><a class="dropdown-item" asp-area="Admin" asp-controller="Category" asp-action="Index">Categories</a></li>
                                 <li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Index">Users</a></li>
+                                <li><a class="dropdown-item" asp-area="Admin" asp-controller="Order" asp-action="Index">Orders</a></li>
                             </ul>
                         </li>
                     }
+                    else if(User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Admin" asp-controller="Order" asp-action="Index">Orders</a>
+                        </li>
+                    }
+
                     @if (User.Identity.IsAuthenticated && HttpContextAccessor.HttpContext.Session.GetInt32(Diger.ssShoppingCart) != null)
                     {
                         <li class="text-white">

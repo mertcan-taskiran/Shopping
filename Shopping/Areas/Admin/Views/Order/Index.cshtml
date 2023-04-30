@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Shopping.Models.OrderHeader>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mt-3">
+                <li class="breadcrumb-item"><a class="link-dark" href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Orders</li>
+            </ol>
+        </nav>
+
+        <hr />
+
+        <div class="btn-group d-grid gap-2 d-md-flex justify-content-md-end mb-3" role="group" aria-label="Basic outlined example">
+            <button type="button" class="btn btn-outline-primary active">All Orders</button>
+            <button type="button" class="btn btn-outline-primary">Expected Orders</button>
+            <button type="button" class="btn btn-outline-primary">Confirmed Orders</button>
+            <button type="button" class="btn btn-outline-primary">Shipment Orders</button>           
+        </div>
+
+        <table id="myTable" class="table table-hover table-bordered table-striped table-sm">
+            <thead>
+                <tr>
+                    <th>
+                        Name Surname
+                    </th>
+                    <th>
+                        Phone
+                    </th>
+                    <th>
+                        Order Status
+                    </th>
+                    <th class="text-center"><i class="fa-solid fa-gear"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.Name @item.Surname
+                        </td>
+                        <td>
+                            @item.PhoneNumber
+                        </td>
+                        <td>
+                            @item.OrderStatus
+                        </td>
+                        <td style="width:80px;">
+                            @if (User.IsInRole(Diger.Role_Admin))
+                            {
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                            }
+                            else
+                            {
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i> Details</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>
+}
