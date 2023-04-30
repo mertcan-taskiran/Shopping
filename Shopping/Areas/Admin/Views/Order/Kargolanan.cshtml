@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Shopping.Models.OrderHeader>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Kargolanan";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -17,10 +17,10 @@
         <hr />
 
         <div class="btn-group d-grid gap-2 d-md-flex justify-content-md-end mb-3" role="group" aria-label="Basic outlined example">
-            <a asp-action="Index" asp-area="Admin" asp-controller="Order" type="button" class="btn btn-outline-primary active">All Orders</a>
+            <a asp-action="Index" asp-area="Admin" asp-controller="Order" type="button" class="btn btn-outline-primary">All Orders</a>
             <a asp-action="Beklenen" asp-area="Admin" asp-controller="Order" type="button" class="btn btn-outline-primary">Expected Orders</a>
             <a asp-action="Onaylanan" asp-area="Admin" asp-controller="Order" type="button" class="btn btn-outline-primary">Confirmed Orders</a>
-            <a asp-action="Kargolanan" asp-area="Admin" asp-controller="Order" type="button" class="btn btn-outline-primary">Shipment Orders</a>           
+            <a asp-action="Kargolanan" asp-area="Admin" asp-controller="Order" type="button" class="btn btn-outline-primary active">Shipment Orders</a>
         </div>
 
         <table id="myTable" class="table table-hover table-bordered table-striped table-sm">
@@ -75,3 +75,4 @@
         });
     </script>
 }
+
