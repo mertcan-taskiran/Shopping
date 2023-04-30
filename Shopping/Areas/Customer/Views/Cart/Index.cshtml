@@ -83,12 +83,12 @@
                     </table>
 
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-warning form-control"><i class="fa-solid fa-arrow-rotate-left"></i> Keep Shopping</a>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             @if (!Model.OrderHeader.ApplicationUser.EmailConfirmed)
                             {
                                 <div>
@@ -97,7 +97,7 @@
                             }
                             else
                             {
-                                <a asp-area="Customer" asp-controller="Cart" asp-action="Summary" class="btn btn-primary form-control"><i class="fa-solid fa-arrow-right-from-arc"></i> Keep Shopping</a>
+                                <a asp-area="Customer" asp-controller="Cart" asp-action="Summary" class="btn btn-primary form-control">Confirm Cart and Pay <i class="fa-solid fa-arrow-right"></i></a>
                             }        
                         </div>
                     </div>

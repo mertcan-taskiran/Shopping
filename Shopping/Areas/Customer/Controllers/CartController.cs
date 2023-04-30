@@ -27,6 +27,24 @@ namespace Shopping.Areas.Customer.Controllers
             _db = db;
         }
 
+        public IActionResult Summary()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            ShoppingCartVM = new ShoppingCartVM()
+            {
+                OrderHeader = new Models.OrderHeader(),
+                ListCart = _db.ShoppingCarts.Where(i => i.ApplicationUserId == claim.Value).Include(i => i.Product)
+            };
+            foreach (var item in ShoppingCartVM.ListCart)
+            {
+                item.Price = item.Product.Price;
+                ShoppingCartVM.OrderHeader.OrderTotal += (item.Count * item.Product.Price);
+            }
+
+            return View(ShoppingCartVM);
+        }
+
         public IActionResult Index()
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
