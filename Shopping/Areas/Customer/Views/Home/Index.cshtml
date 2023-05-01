@@ -10,35 +10,15 @@
     ViewData["Title"] = "Home Page";
 }
 
-@*<div class="container">
-    <div class="row">
-        @await Component.InvokeAsync("CategoryList")
-        <partial name="_Cards" />
-    </div>
-</div>*@
-
 <div class="container">
     <div class="row">
-        @await Component.InvokeAsync("CategoryList")
-        @foreach (var item in Model)
-        {
-            <div class="col-md-3">
-                <div class="card text-center">
-                    <div class="card-header">
-                        <h5 class="card-title">@item.Name</h5>
-                    </div>
-                    <div class="img-thumbnail">
-                        <img src="@item.Image" class="card-img-top" alt="image" style="height: 300px">
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">@item.Description</p>
-                    </div>
-                    <div class="card-footer d-flex flex-column">
-                        <label><b>@item.Price.ToString("0.00") ₺</b></label>
-                        <a asp-action="Details" asp-controller="Home" asp-route-id="@item.Id" class="btn btn-dark mt-1">Detail</a>
-                    </div>
-                </div>
+        <div class="col-md-3">
+            @await Component.InvokeAsync("CategoryList")
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <partial name="_Cards" />
             </div>
-        }
+        </div>
     </div>
 </div>
