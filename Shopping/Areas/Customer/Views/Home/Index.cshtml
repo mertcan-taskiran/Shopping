@@ -10,21 +10,35 @@
     ViewData["Title"] = "Home Page";
 }
 
+@*<div class="container">
+    <div class="row">
+        @await Component.InvokeAsync("CategoryList")
+        <partial name="_Cards" />
+    </div>
+</div>*@
+
 <div class="container">
     <div class="row">
-        <div class="col-md-3">
-            <div class="card">
-                <ul class="list-group">
-                    <li class="list-group-item active" aria-current="true">All Products</li>
-                    <li class="list-group-item">A second item</li>
-                    <li class="list-group-item">A third item</li>
-                    <li class="list-group-item">A fourth item</li>
-                    <li class="list-group-item">And a fifth one</li>
-                </ul>
+        @await Component.InvokeAsync("CategoryList")
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <h5 class="card-title">@item.Name</h5>
+                    </div>
+                    <div class="img-thumbnail">
+                        <img src="@item.Image" class="card-img-top" alt="image" style="height: 300px">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">@item.Description</p>
+                    </div>
+                    <div class="card-footer d-flex flex-column">
+                        <label><b>@item.Price.ToString("0.00") ₺</b></label>
+                        <a asp-action="Details" asp-controller="Home" asp-route-id="@item.Id" class="btn btn-dark mt-1">Detail</a>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <partial name="_Cards" />
-        
+        }
     </div>
 </div>

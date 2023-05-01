@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Shopping.Models.Product>
+@{
+    ViewData["Title"] = "CategoryDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .img-thumbnail {
+        border: none;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+
+        @await Component.InvokeAsync("CategoryList")
+
+        @if (Model.Count() > 0)
+        {
+            @*<partial name="_Cards" />*@
+            @foreach (var item in Model)
+            {
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            <h5 class="card-title">@item.Name</h5>
+                        </div>
+                        <div class="img-thumbnail">
+                            <img src="@item.Image" class="card-img-top" alt="image" style="height: 300px">
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">@item.Description</p>
+                        </div>
+                        <div class="card-footer d-flex flex-column">
+                            <label><b>@item.Price.ToString("0.00") ₺</b></label>
+                            <a asp-action="Details" asp-controller="Home" asp-route-id="@item.Id" class="btn btn-dark mt-1">Detail</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="alert alert-warning">No Product</div>
+        }
+
+    </div>
+</div>
+

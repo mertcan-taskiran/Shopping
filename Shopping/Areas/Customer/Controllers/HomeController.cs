@@ -19,6 +19,13 @@ namespace Shopping.Areas.Customer.Controllers
             _db = db;
         }
 
+        public IActionResult CategoryDetails(int? id)
+        {
+            var product = _db.Products.Where(i => i.CategoryId == id).ToList();
+            ViewBag.KategoriId = id;
+            return View(product);
+        }
+
         public IActionResult Index()
         {
             var products = _db.Products.Where(i => i.IsHome).ToList();
